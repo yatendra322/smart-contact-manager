@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is services page</h1>
+     <!-- Using fragment -->
+     <div class="host-tag" th:replace="~{base :: parent(~{::.third-containt})}">
+        <section id="main-containt">
+            <h2>this is dynamic services pass to parent</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur fugit quod ab voluptatum cumque
+                ullam quis cupiditate modi accusantium deleniti dolorem officia, accusamus eligendi aliquam, doloribus
+                repellendus similique explicabo. Eaque.</p>
+        </section>
+        <section id="second-containt">
+            <h2>this is second dynamic services pass to parent</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur fugit quod ab voluptatum cumque
+                ullam quis cupiditate modi accusantium deleniti dolorem officia, accusamus eligendi aliquam, doloribus
+                repellendus similique explicabo. Eaque.</p>
+        </section>
+
+        <section class="third-containt">
+            <h2>this is third-containt dynamic services pass to parent</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aspernatur fugit quod ab voluptatum cumque
+                ullam quis cupiditate modi accusantium deleniti dolorem officia, accusamus eligendi aliquam, doloribus
+                repellendus similique explicabo. Eaque.</p>
+        </section>
+
+    </div>
+</body>
+</html>
