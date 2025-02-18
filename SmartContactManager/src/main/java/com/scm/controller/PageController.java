@@ -1,17 +1,33 @@
 package com.scm.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+
+import com.scm.entities.User;
+import com.scm.forms.UserForm;
+import com.scm.helpers.Message;
+import com.scm.helpers.MessageType;
+import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PageController {
+
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/home")
     public String home(Model model) {
         System.out.println("home page handler ");
-        model.addAttribute("name", "yatendra");
+        model.addAttribute("name", "Shivam");
         model.addAttribute("youtubeChannel", "youtube channel");
         model.addAttribute("githubRepo", "Github channel");
         return "home";
@@ -38,17 +54,70 @@ public class PageController {
         return "contact";
     }
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login() {
         System.out.println("login page loading ... ");
         return "login";
     }
 
-    @RequestMapping("/register")
-    public String regster() {
-        System.out.println("regster page loading ... ");
+    @GetMapping("/register")
+    public String register(Model model) {
+        UserForm userForm = new UserForm();
+        // default data bhi daal sakte hai
+        // userForm.setName("Shivam");
+        // userForm.setAbout("This is about : write something about yourself");
+        model.addAttribute("userForm", userForm);
         return "register";
     }
 
+    // processing register
+    @RequestMapping(value = "/do-register", method = RequestMethod.POST)
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
+            HttpSession session) {
+        System.out.println("Processing Registration");
+        // fetch form data
+        // UserForm
+        System.out.println(userForm);
+
+        // validate form data
+        if (rBindingResult.hasErrors()) {
+            return "register";
+        }
+
+        // TODO:Validate userForm[Next Video]
+        // save to database
+
+        // userservice
+        // UserForm-->User
+        // User user=User.builder()
+        // .name(userForm.getName())
+        // .email(userForm.getEmail())
+        // .password(userForm.getPassword())
+        // .about(userForm.getAbout())
+        // .phoneNumber(userForm.getPhoneNumber())
+        // .profilePic("https://learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75")
+        // .build();
+
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setAbout(userForm.getAbout());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setProfilePic(
+                "https://learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75");
+
+        User savedUser = userService.saveUser(user);
+        System.out.println("user saved :");
+
+        // message="Registration Successful"
+        // add the message:
+        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
+
+        session.setAttribute("message", message);
+
+        // redirect login page
+        return "redirect:/register";
+    }
 
 }

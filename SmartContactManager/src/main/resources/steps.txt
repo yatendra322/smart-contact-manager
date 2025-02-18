@@ -1,6 +1,7 @@
 
-1.Kisi bhi page pr tailwin css chahiye
-    npx tailwindcss -i src/main/resources/static/css/input.css -o src/main/resources/static/css/output.css --watch
+1.Kisi bhi page pr tailwin css chahi
+  npx tailwindcss -i src/main/resources/static/css/input.css -o src/main/resources/static/css/output.css --watch
+
 
 2. include output.css in your html
 

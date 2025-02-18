@@ -24,7 +24,7 @@ function changeTheme() {
 
         // local storage update
         setTheme(changeTheme);
-        // remove the curret theme
+        // remove the current theme
         document.querySelector('html').classList.remove(oldTheme);
         // set the current theme
         document.querySelector('html').classList.add(currentTheme);
